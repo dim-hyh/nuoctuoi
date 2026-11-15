@@ -1,0 +1,16 @@
+# Kết quả build
+target/
+*.class
+
+# Dữ liệu và log chạy thử
+data/
+*.log
+
+# Cấu hình riêng trên máy (nếu có mật khẩu thì để ở đây, không đưa lên GitHub)
+application-local.properties
+.env
+
+# IDE
+.idea/
+*.iml
+.vscode/settings.json

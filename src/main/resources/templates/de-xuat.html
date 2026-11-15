@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Đề xuất tưới')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Đề xuất tưới (BM6)</h3>
+
+        <form th:if="${nd.canBo}" th:action="@{/de-xuat/lap}" method="post">
+            Ngày lập: <input name="ngay" type="date" th:value="${ngayLap != null ? ngayLap : ngayMacDinh}">
+            <button type="submit">Lập đề xuất (thay bộ hẹn giờ lúc 05:00)</button>
+        </form>
+
+        <table class="bang">
+            <tr>
+                <th>Mã đề xuất</th><th>Ngày</th><th>Thửa áp dụng</th><th>Giai đoạn</th><th>Lượng (m³)</th>
+                <th>Khung giờ</th><th>Hiệu lực đến</th><th>Căn cứ</th><th>Trạng thái</th><th>Thao tác</th>
+            </tr>
+            <tr th:if="${#lists.isEmpty(dsDeXuat)}"><td colspan="10"><i>Chưa có đề xuất.</i></td></tr>
+            <tr th:each="d : ${dsDeXuat}">
+                <td th:text="${d.maDeXuat}"></td>
+                <td th:text="${@dd.ngay(d.ngayLap)}"></td>
+                <td th:text="${d.dsThua}"></td>
+                <td th:text="${d.giaiDoan}"></td>
+                <td>
+                    <span th:text="${@dd.so(d.luongApDung)}"></span>
+                    <small th:if="${d.luongApDung != d.luongGoc}" th:text="'(gốc ' + ${@dd.so(d.luongGoc)} + ')'"></small>
+                </td>
+                <td th:text="${d.khungGio}"></td>
+                <td th:text="${@dd.ngayGio(d.hieuLucDen)}"></td>
+                <td><small th:text="${d.canCu}"></small></td>
+                <td>
+                    <span th:text="${d.trangThai}"></span>
+                    <small th:if="${d.luongThucTe != null}" th:text="' – thực tế ' + ${@dd.so(d.luongThucTe)}"></small>
+                </td>
+                <td>
+                    <th:block th:if="${nd.nongHo and d.trangThai == choXacNhan}">
+                        <form th:action="@{/de-xuat/xac-nhan}" method="post" class="nut-dong">
+                            <input type="hidden" name="ma" th:value="${d.maDeXuat}">
+                            <button type="submit">Xác nhận</button>
+                        </form>
+                        <a th:href="@{/de-xuat/ghi-de(ma=${d.maDeXuat})}">Ghi đè</a>
+                    </th:block>
+                    <form th:if="${nd.nongHo and (d.trangThai == daXacNhan or d.trangThai == daGhiDe)}"
+                          th:action="@{/de-xuat/thuc-te}" method="post">
+                        <input type="hidden" name="ma" th:value="${d.maDeXuat}">
+                        <input name="luong" type="number" step="0.1" th:value="${d.luongApDung}" style="width:70px">
+                        <button type="submit">Ghi thực tế</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

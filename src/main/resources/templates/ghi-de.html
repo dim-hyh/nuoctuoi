@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Ghi đè đề xuất')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Ghi đè đề xuất có lý do (BM7)</h3>
+        <p>
+            Đề xuất <b th:text="${dx.maDeXuat}"></b> – thửa <span th:text="${dx.dsThua}"></span> –
+            lượng đề xuất <b th:text="${@dd.so(dx.luongGoc)} + ' m³'"></b>.
+            Hạn mức vùng <span th:text="${dx.maVung}"></span> còn lại:
+            <b th:text="${@dd.so(conLai)} + ' m³'"></b>.
+        </p>
+        <form th:action="@{/de-xuat/ghi-de}" method="post">
+            <input type="hidden" name="ma" th:value="${dx.maDeXuat}">
+            <table class="form">
+                <tr>
+                    <td>Lý do:</td>
+                    <td>
+                        <select name="lyDo">
+                            <option th:each="ld : ${dsLyDo}" th:value="${ld}" th:text="${ld}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mô tả cụ thể:</td>
+                    <td><textarea name="moTa" rows="3" cols="50"
+                                  th:placeholder="'Ít nhất ' + ${moTaToiThieu} + ' ký tự'"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Lượng mới (m³):</td>
+                    <td><input name="luongMoi" type="number" step="0.1"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="submit">Gửi</button>
+                        <a th:href="@{/de-xuat}">Hủy</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

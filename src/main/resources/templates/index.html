@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Trang chủ')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Trang chủ</h3>
+        <p th:if="${nd != null}">Xin chào <b th:text="${nd.hoTen}"></b>.</p>
+        <ul>
+            <li>Đề xuất đang chờ xác nhận: <b th:text="${soChoXacNhan}"></b></li>
+            <li>Phiếu ghi đè đang chờ duyệt: <b th:text="${soChoDuyet}"></b></li>
+        </ul>
+
+        <p><b>Tình hình hạn mức nước</b></p>
+        <table class="bang gon">
+            <tr>
+                <th>Vùng</th><th>Kỳ</th>
+                <th class="so">Hạn mức (m³)</th><th class="so">Đã dùng (m³)</th><th class="so">Còn lại (m³)</th>
+                <th>Trạng thái</th>
+            </tr>
+            <tr th:each="hm : ${dsHanMuc}" th:with="tt=${hm.trangThai(qd)}">
+                <td th:text="${hm.maVung}"></td>
+                <td th:text="${@dd.ngay(hm.tuNgay)} + ' – ' + ${@dd.ngay(hm.denNgay)}"></td>
+                <td class="so" th:text="${@dd.so(hm.hanMuc)}"></td>
+                <td class="so" th:text="${@dd.so(hm.daDung)}"></td>
+                <td class="so" th:text="${@dd.so(hm.conLai)}"></td>
+                <td th:text="${tt}" th:classappend="${tt != 'Bình thường'} ? 'canhbao'"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

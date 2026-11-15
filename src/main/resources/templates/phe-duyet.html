@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Phê duyệt ghi đè')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Phê duyệt ghi đè</h3>
+        <table class="bang">
+            <tr>
+                <th>Mã phiếu</th><th>Đề xuất</th><th>Người ghi đè</th><th>Lý do</th><th>Mô tả</th>
+                <th>Gốc</th><th>Xin</th><th>Trạng thái</th><th>Duyệt</th><th></th>
+            </tr>
+            <tr th:if="${#lists.isEmpty(dsPhieu)}"><td colspan="10"><i>Chưa có phiếu ghi đè.</i></td></tr>
+            <tr th:each="p : ${dsPhieu}">
+                <td th:text="${p.maPhieu}"></td>
+                <td th:text="${p.maDeXuat}"></td>
+                <td th:text="${p.nguoiGhiDe}"></td>
+                <td th:text="${p.lyDo}"></td>
+                <td th:text="${p.moTa}"></td>
+                <td th:text="${@dd.so(p.luongGoc)}"></td>
+                <td th:text="${@dd.so(p.luongMoi)}"></td>
+                <td th:text="${p.trangThai}"></td>
+                <td>
+                    <span th:if="${p.luongDuyet != null}" th:text="${@dd.so(p.luongDuyet)}"></span>
+                    <br th:if="${!#strings.isEmpty(p.yKien)}">
+                    <small th:text="${p.yKien}"></small>
+                </td>
+                <td>
+                    <a th:if="${p.trangThai == choDuyet}" th:href="@{/phe-duyet/duyet(ma=${p.maPhieu})}">Duyệt</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

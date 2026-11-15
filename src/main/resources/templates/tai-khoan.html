@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Quản lý tài khoản')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Quản lý tài khoản</h3>
+
+        <p><b>Thêm tài khoản mới</b></p>
+        <form th:action="@{/tai-khoan/them}" method="post">
+            <table class="form">
+                <tr>
+                    <td>Tên đăng nhập:</td><td><input name="tenDangNhap"></td>
+                    <td>Họ tên:</td><td><input name="hoTen"></td>
+                </tr>
+                <tr>
+                    <td>Vai trò:</td>
+                    <td>
+                        <select name="vaiTro">
+                            <option th:each="vt : ${dsVaiTro}" th:value="${vt}"
+                                    th:text="${@dd.tenVaiTro(vt)}"></option>
+                        </select>
+                    </td>
+                    <td>Mật khẩu:</td><td><input name="matKhau" type="password"></td>
+                </tr>
+            </table>
+            <button type="submit">Thêm tài khoản</button>
+        </form>
+
+        <table class="bang">
+            <tr><th>Tên đăng nhập</th><th>Họ tên</th><th>Vai trò</th><th>Đặt lại mật khẩu</th><th></th></tr>
+            <tr th:each="u : ${dsNguoiDung}">
+                <td th:text="${u.tenDangNhap}"></td>
+                <td th:text="${u.hoTen}"></td>
+                <td th:text="${@dd.tenVaiTro(u.vaiTro)}"></td>
+                <td>
+                    <form th:action="@{/tai-khoan/dat-lai-mat-khau}" method="post"
+                          th:data-ten="${u.tenDangNhap}"
+                          onsubmit="return confirm('Đặt lại mật khẩu cho tài khoản ' + this.dataset.ten + '?');">
+                        <input type="hidden" name="id" th:value="${u.id}">
+                        <input name="matKhauMoi" type="password" placeholder="Mật khẩu mới" style="width:140px">
+                        <button type="submit">Đặt lại</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/tai-khoan/xoa}" method="post"
+                          th:data-ten="${u.tenDangNhap}"
+                          onsubmit="return confirm('Bạn có chắc muốn xóa tài khoản ' + this.dataset.ten + ' không?');">
+                        <input type="hidden" name="id" th:value="${u.id}">
+                        <button type="submit">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

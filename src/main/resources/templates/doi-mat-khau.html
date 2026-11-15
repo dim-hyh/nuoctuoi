@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Đổi mật khẩu')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Đổi mật khẩu</h3>
+        <form th:action="@{/doi-mat-khau}" method="post">
+            <table class="form">
+                <tr><td>Mật khẩu cũ:</td><td><input name="matKhauCu" type="password"></td></tr>
+                <tr><td>Mật khẩu mới:</td><td><input name="matKhauMoi" type="password"></td></tr>
+                <tr><td>Nhập lại:</td><td><input name="nhapLai" type="password"></td></tr>
+                <tr><td></td><td><button type="submit">Lưu</button></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

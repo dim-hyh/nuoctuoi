@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Quy định')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Thay đổi quy định</h3>
+        <form th:action="@{/quy-dinh/luu}" method="post">
+            <table class="bang">
+                <tr><th>Tham số</th><th>Giá trị</th></tr>
+                <tr><td>Giờ lập đề xuất (QĐ6)</td><td><input name="gioLap" type="number" th:value="${qd.gioLap}"></td></tr>
+                <tr><td>Số đo quá hạn sau (giờ) (QĐ4)</td><td><input name="hanSoDoGio" type="number" th:value="${qd.hanSoDoGio}"></td></tr>
+                <tr><td>Hiệu lực đề xuất (giờ) (QĐ6)</td><td><input name="hieuLucGio" type="number" th:value="${qd.hieuLucGio}"></td></tr>
+                <tr><td>Mức lệch thay thế đề xuất (điểm %) (QĐ6)</td><td><input name="mucLechThayThe" type="number" step="0.1" th:value="${qd.mucLechThayThe}"></td></tr>
+                <tr><td>Cảnh báo khi hạn mức còn dưới (%) (QĐ5)</td><td><input name="canhBaoPhanTram" type="number" step="0.1" th:value="${qd.canhBaoPhanTram}"></td></tr>
+                <tr><td>Hệ số mưa hữu hiệu (QĐ4)</td><td><input name="heSoMua" type="number" step="0.01" th:value="${qd.heSoMua}"></td></tr>
+                <tr><td>Mô tả lý do tối thiểu (ký tự) (QĐ8)</td><td><input name="moTaToiThieu" type="number" th:value="${qd.moTaToiThieu}"></td></tr>
+                <tr><td>Hiệu suất nhỏ giọt</td><td><input name="hsNhoGiot" type="number" step="0.01" th:value="${qd.hsNhoGiot}"></td></tr>
+                <tr><td>Hiệu suất phun mưa</td><td><input name="hsPhunMua" type="number" step="0.01" th:value="${qd.hsPhunMua}"></td></tr>
+                <tr><td>Hiệu suất tưới rãnh</td><td><input name="hsRanh" type="number" step="0.01" th:value="${qd.hsRanh}"></td></tr>
+            </table>
+            <button type="submit">Lưu quy định</button>
+        </form>
+
+        <form th:action="@{/quy-dinh/khoi-phuc}" method="post" style="margin-top:10px"
+              onsubmit="return confirm('Xóa toàn bộ dữ liệu hiện tại và khôi phục dữ liệu mẫu?');">
+            <button type="submit">Khôi phục dữ liệu mẫu</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

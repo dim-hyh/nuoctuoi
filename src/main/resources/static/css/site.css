@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: #222;
+    background: #eeeeee;
+}
+
+/* ===== Đầu trang: dải ảnh bàn tay hứng nước ===== */
+.dau-trang {
+    position: relative;
+    height: 110px;
+    background: #0a1517;                 /* trùng màu nền tối của ảnh */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 24px 0 360px;
+}
+.dt-anh {
+    position: absolute; left: 20px; top: 0; bottom: 0; width: 300px;
+    background: url('../img/nen-dang-nhap.png') center 58% / 300px auto no-repeat;
+}
+.dt-anh::after {                         /* mép ảnh mờ dần vào nền tối */
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to right, #0a1517 0%, rgba(10,21,23,0) 10%,
+                                          rgba(10,21,23,0) 60%, #0a1517 100%);
+}
+.dt-ten { position: relative; }
+.dt-ten b { display: block; font-size: 26px; letter-spacing: .5px; }
+.dt-ten span { font-size: 15px; color: #cfd8d3; }
+.dt-phai {
+    position: relative; margin-left: auto; text-align: right;
+    font-size: 15px; line-height: 1.7;
+}
+.nut-dang-xuat { display: inline; margin: 0 0 0 8px; }
+.nut-dang-xuat button {
+    background: none; color: #fff; border: 1px solid #ccc;
+    padding: 4px 12px; font-size: 14px;
+}
+.nut-dang-xuat button:hover { background: #2b6e44; border-color: #2b6e44; }
+
+/* Menu ngang */
+.menu {
+    background: #3d8b5a;
+    padding: 0 12px;
+    overflow: hidden;
+}
+.menu a {
+    float: left;
+    color: #fff;
+    padding: 13px 17px;
+    font-size: 17px;
+    text-decoration: none;
+}
+.menu a:hover, .menu a.chon { background: #2b6e44; }
+
+/* Nội dung */
+.noi-dung {
+    width: 95%;
+    margin: 18px auto;
+}
+.trang {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 14px 26px 26px;
+    min-height: 400px;
+}
+h3 {
+    color: #2b6e44;
+    font-size: 24px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+}
+p { line-height: 1.5; }
+
+/* Bảng */
+.bang { border-collapse: collapse; width: 100%; margin-top: 12px; }
+.bang th, .bang td {
+    border: 1px solid #aaa;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 16px;
+}
+.bang th { background: #dfe9e2; font-size: 17px; }
+.bang tr:nth-child(even) td { background: #f7f7f7; }
+.bang small { font-size: 14px; }
+.bang .so { text-align: right; }               /* cột số canh phải */
+
+/* Bảng gọn: chỉ rộng vừa đủ nội dung (dùng cho bảng ít cột) */
+.bang.gon { width: auto; }
+.bang.gon th, .bang.gon td { padding: 10px 26px; white-space: nowrap; }
+
+/* Form */
+.form td { padding: 6px 8px; font-size: 16px; }
+input, select, textarea {
+    padding: 7px 8px;
+    border: 1px solid #999;
+    font-family: Arial;
+    font-size: 16px;
+}
+button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #3d8b5a;
+    color: #fff;
+    border: 1px solid #2b6e44;
+}
+button:hover { background: #2b6e44; }
+form { margin-bottom: 10px; }
+.nut-dong { display: inline; }
+
+/* Thông báo */
+.loi { color: #c00; font-size: 16px; }
+.ok { color: #1a7a1a; font-size: 16px; }
+.ghichu { color: #666; font-size: 14px; }
+.canhbao { color: #c00; font-weight: bold; }
+
+/* Chân trang */
+.chan-trang { text-align: center; color: #777; font-size: 14px; padding: 12px; }
+
+/* Màn hình nhỏ: ẩn ảnh cho gọn */
+@media (max-width: 800px) {
+    .dau-trang { height: auto; padding: 14px 16px; display: block; }
+    .dt-anh { display: none; }
+    .dt-phai { text-align: left; margin-top: 8px; }
+}

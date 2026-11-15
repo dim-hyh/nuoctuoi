@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+
+<!-- Phần head dùng chung -->
+<head th:fragment="head(tieuDe)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${tieuDe} + ' - Quản lý nước tưới'">Quản lý nước tưới</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+
+<body>
+
+<!-- Đầu trang: dải ảnh + tên hệ thống + người dùng, sau đó là menu theo vai trò -->
+<div th:fragment="dauTrang">
+    <div class="dau-trang">
+        <div class="dt-anh"></div>
+        <div class="dt-ten">
+            <b>QUẢN LÝ NƯỚC TƯỚI</b>
+            <span>Tưới đúng lượng – tiết kiệm nước</span>
+        </div>
+        <div class="dt-phai" th:if="${nd != null}">
+            <span th:text="${homNay}"></span><br>
+            <span th:text="${nd.hoTen} + ' (' + ${nd.tenVaiTro} + ')'"></span>
+            <form th:action="@{/dang-xuat}" method="post" class="nut-dang-xuat"
+                  onsubmit="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
+                <button type="submit">Đăng xuất</button>
+            </form>
+        </div>
+    </div>
+    <div class="menu" th:if="${nd != null}">
+        <a th:href="@{/}">Trang chủ</a>
+        <th:block th:if="${nd.canBo}">
+            <a th:href="@{/thua-ruong}">Thửa ruộng</a>
+            <a th:href="@{/cay-trong}">Cây trồng</a>
+            <a th:href="@{/lich-mua-vu}">Lịch mùa vụ</a>
+            <a th:href="@{/so-lieu}">Số liệu</a>
+        </th:block>
+        <a th:if="${nd.quanLy}" th:href="@{/han-muc}">Hạn mức nước</a>
+        <a th:unless="${nd.quanTri}" th:href="@{/de-xuat}">Đề xuất tưới</a>
+        <a th:if="${nd.quanLy}" th:href="@{/phe-duyet}">Phê duyệt</a>
+        <a th:if="${nd.quanLy or nd.banQuanTri}" th:href="@{/bao-cao}">Báo cáo</a>
+        <a th:if="${nd.banQuanTri or nd.quanTri}" th:href="@{/quy-dinh}">Quy định</a>
+        <a th:if="${nd.quanTri}" th:href="@{/tai-khoan}">Quản lý tài khoản</a>
+        <a th:href="@{/doi-mat-khau}">Đổi mật khẩu</a>
+    </div>
+
+    <script>
+        // Chạy sau khi trang tải xong
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // 1. Tô đậm mục menu của trang đang mở
+            var duongDan = location.pathname;
+            document.querySelectorAll(".menu a").forEach(function (a) {
+                var link = a.getAttribute("href");
+                if (link === "/" ? duongDan === "/" : duongDan.indexOf(link) === 0) {
+                    a.classList.add("chon");
+                }
+            });
+
+            // 2. Tô màu chữ trạng thái trong bảng
+            var mau = [
+                ["Chờ", "tt-cho"],
+                ["Đã thực hiện", "tt-xong"], ["Đã xác nhận", "tt-xong"], ["Chấp nhận", "tt-xong"],
+                ["Bình thường", "tt-xong"], ["Hợp lệ", "tt-xong"], ["Đã duyệt", "tt-xong"], ["Đã áp dụng", "tt-xong"],
+                ["Không cần tưới", "tt-khong"], ["Hết hiệu lực", "tt-khong"], ["Bị thay thế", "tt-khong"], ["Đã kết thúc", "tt-khong"],
+                ["Từ chối", "tt-loi"], ["Sắp hết", "tt-loi"], ["Đã hết", "tt-loi"], ["Vượt", "tt-loi"], ["Quá hạn", "tt-loi"],
+                ["Điều chỉnh", "tt-dc"], ["Đã ghi đè", "tt-dc"]
+            ];
+            document.querySelectorAll(".bang td").forEach(function (td) {
+                if (td.querySelector("form, button, input, a")) return;      // bỏ qua ô có nút
+                var o = td.querySelector("span") || (td.children.length === 0 ? td : null);
+                if (!o) return;
+                var chu = o.textContent.trim();
+                for (var i = 0; i < mau.length; i++) {
+                    if (chu.indexOf(mau[i][0]) === 0) {
+                        o.innerHTML = '<span class="tt ' + mau[i][1] + '">' + chu + '</span>';
+                        break;
+                    }
+                }
+            });
+        });
+    </script>
+</div>
+
+<!-- Thông báo thành công / lỗi -->
+<div th:fragment="thongBao">
+    <p class="ok" th:if="${thongBao}" th:text="${thongBao}"></p>
+    <p class="loi" th:if="${loi}" th:text="${loi}"></p>
+</div>
+
+</body>
+</html>

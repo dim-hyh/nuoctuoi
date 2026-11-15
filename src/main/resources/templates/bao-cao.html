@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Báo cáo sử dụng nước')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Báo cáo sử dụng nước (BM8)</h3>
+        <form th:action="@{/bao-cao}" method="get">
+            Vùng:
+            <select name="vung" onchange="this.form.submit()">
+                <option th:each="v : ${dsVung}" th:value="${v.maVung}" th:text="${v.maVung} + ' – ' + ${v.tenVung}"
+                        th:selected="${v.maVung == vung}"></option>
+            </select>
+        </form>
+
+        <p th:if="${#lists.isEmpty(dsKy)}"><i>Vùng này chưa có kỳ hạn mức.</i></p>
+
+        <th:block th:each="ky : ${dsKy}">
+            <p>
+                <b th:text="'Kỳ ' + ${@dd.ngay(ky.hanMuc.tuNgay)} + ' – ' + ${@dd.ngay(ky.hanMuc.denNgay)}"></b>
+                &nbsp; Hạn mức: <span th:text="${@dd.so(ky.hanMuc.hanMuc)}"></span> m³
+                &nbsp; Đã dùng: <span th:text="${@dd.so(ky.hanMuc.daDung)}"></span> m³
+                &nbsp; Còn lại: <span th:text="${@dd.so(ky.hanMuc.conLai)}"></span> m³
+                <span th:text="'(' + ${ky.trangThai} + ')'"
+                      th:classappend="${ky.trangThai != 'Bình thường'} ? 'canhbao'"></span>
+            </p>
+            <table class="bang">
+                <tr>
+                    <th>Đề xuất</th><th>Ngày</th><th>Thửa</th><th>Lượng gốc</th><th>Lượng áp dụng</th>
+                    <th>Thực tế</th><th>Chênh lệch</th><th>Ghi đè</th>
+                </tr>
+                <tr th:each="dong : ${ky.dong}">
+                    <td th:text="${dong.deXuat.maDeXuat}"></td>
+                    <td th:text="${@dd.ngay(dong.deXuat.ngayLap)}"></td>
+                    <td th:text="${dong.deXuat.dsThua}"></td>
+                    <td th:text="${@dd.so(dong.deXuat.luongGoc)}"></td>
+                    <td th:text="${@dd.so(dong.deXuat.luongApDung)}"></td>
+                    <td th:text="${@dd.so(dong.deXuat.luongThucTe)}"></td>
+                    <td th:text="${@dd.so(dong.chenhLech)}"></td>
+                    <td th:text="${dong.ghiDe}"></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><b>Tổng</b></td>
+                    <td><b th:text="${@dd.so(ky.tongGoc)}"></b></td>
+                    <td><b th:text="${@dd.so(ky.tongApDung)}"></b></td>
+                    <td><b th:text="${@dd.so(ky.tongThucTe)}"></b></td>
+                    <td><b th:text="${@dd.so(ky.tongChenhLech)}"></b></td>
+                    <td></td>
+                </tr>
+            </table>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

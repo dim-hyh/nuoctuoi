@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Lịch mùa vụ')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Lập lịch mùa vụ (BM3)</h3>
+        <form th:action="@{/lich-mua-vu/them}" method="post">
+            <table class="form">
+                <tr>
+                    <td>Cây trồng:</td>
+                    <td>
+                        <select name="maCay">
+                            <option th:each="c : ${dsCay}" th:value="${c.maCay}" th:text="${c.tenCay}"></option>
+                        </select>
+                    </td>
+                    <td>Ngày gieo:</td><td><input name="ngayGieo" type="date"></td>
+                </tr>
+                <tr>
+                    <td>Các thửa:</td>
+                    <td colspan="3">
+                        <label th:each="t : ${dsThua}">
+                            <input type="checkbox" name="thuas" th:value="${t.maThua}"> <span th:text="${t.maThua}"></span>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit">Lập lịch</button>
+        </form>
+
+        <th:block th:each="ht : ${dsLich}">
+            <p>
+                <b th:text="${ht.lich.maLich}"></b>
+                – <span th:text="${ht.tenCay}"></span>
+                – Thửa: <span th:text="${ht.lich.dsThua}"></span>
+                – Gieo: <span th:text="${@dd.ngay(ht.lich.ngayGieo)}"></span>
+                – Thu hoạch dự kiến: <span th:text="${@dd.ngay(ht.ngayThuHoach)}"></span>
+            </p>
+            <table class="bang">
+                <tr><th>Giai đoạn</th><th>Từ ngày</th><th>Đến ngày</th><th>Số ngày</th></tr>
+                <tr th:each="g : ${ht.giaiDoans}">
+                    <td th:text="${g.ten}"></td>
+                    <td th:text="${@dd.ngay(g.tuNgay)}"></td>
+                    <td th:text="${@dd.ngay(g.denNgay)}"></td>
+                    <td th:text="${g.soNgay}"></td>
+                </tr>
+            </table>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

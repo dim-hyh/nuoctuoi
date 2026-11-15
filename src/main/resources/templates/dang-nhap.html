@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Quản lý nước tưới</title>
+    <link rel="stylesheet" th:href="@{/css/dang-nhap.css}">
+</head>
+<body class="trang-dang-nhap">
+
+<!-- Ảnh nền -->
+<div class="dn-anh"></div>
+
+<!-- Ô đăng nhập -->
+<div class="dn-hop">
+
+    <div style="text-align:center; margin-bottom:10px;">
+        <div style="font-size:32px; font-weight:bold; color:#1f5c3a;">QUẢN LÝ NƯỚC TƯỚI</div>
+        <div style="font-size:19px; color:#666; margin-top:6px;">và lịch canh tác tiết kiệm</div>
+    </div>
+
+    <form th:action="@{/dang-nhap}" method="post">
+        <label>Tên đăng nhập</label>
+        <input name="tenDangNhap" autofocus>
+
+        <label>Mật khẩu</label>
+        <div style="display:flex; gap:6px;">
+            <input id="matKhau" name="matKhau" type="password" style="flex:1;">
+            <span id="nutMat" onclick="hienMatKhau()" title="Hiện mật khẩu"
+                  style="width:46px; display:flex; align-items:center; justify-content:center;
+                         border:1px solid #ccc; cursor:pointer; background:#fff;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2">
+                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                    <line id="gachMat" x1="3" y1="3" x2="21" y2="21"/>
+                </svg>
+            </span>
+        </div>
+
+        <button type="submit">Đăng nhập</button>
+    </form>
+    <p class="loi" th:if="${loi}" th:text="${loi}"></p>
+</div>
+
+<script>
+    // Bấm con mắt: hiện / ẩn mật khẩu
+    function hienMatKhau() {
+        var o = document.getElementById("matKhau");
+        var dangAn = (o.type === "password");
+        o.type = dangAn ? "text" : "password";
+        document.getElementById("gachMat").style.display = dangAn ? "none" : "inline";
+    }
+</script>
+
+</body>
+</html>

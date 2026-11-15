@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments :: head('Thửa ruộng')}"></head>
+<body>
+<div th:replace="~{fragments :: dauTrang}"></div>
+<div class="noi-dung">
+    <div th:replace="~{fragments :: thongBao}"></div>
+    <div class="trang">
+        <h3>Quản lý thửa ruộng (BM1)</h3>
+        <form th:action="@{/thua-ruong/them}" method="post">
+            <table class="form">
+                <tr>
+                    <td>Mã thửa:</td><td><input name="maThua"></td>
+                    <td>Vùng tưới:</td>
+                    <td>
+                        <select name="maVung">
+                            <option th:each="v : ${dsVung}" th:value="${v.maVung}"
+                                    th:text="${v.maVung} + ' – ' + ${v.tenVung}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Chủ hộ:</td><td><input name="chuHo"></td>
+                    <td>Diện tích (m²):</td><td><input name="dienTich" type="number" step="0.1"></td>
+                </tr>
+                <tr>
+                    <td>Loại đất:</td><td><input name="loaiDat"></td>
+                    <td>Hình thức tưới:</td>
+                    <td>
+                        <select name="hinhThucTuoi">
+                            <option th:each="ht : ${dsHinhThuc}" th:value="${ht}" th:text="${ht}"></option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit">Thêm thửa</button>
+        </form>
+
+        <table class="bang">
+            <tr><th>Mã thửa</th><th>Vùng</th><th>Chủ hộ</th><th>Diện tích (m²)</th><th>Loại đất</th><th>Hình thức tưới</th><th></th></tr>
+            <tr th:each="t : ${dsThua}">
+                <td th:text="${t.maThua}"></td>
+                <td th:text="${t.maVung}"></td>
+                <td th:text="${t.chuHo}"></td>
+                <td th:text="${@dd.so(t.dienTich)}"></td>
+                <td th:text="${t.loaiDat}"></td>
+                <td th:text="${t.hinhThucTuoi}"></td>
+                <td>
+                <form th:action="@{/thua-ruong/xoa}" method="post"
+                          th:data-ten="${t.maThua}"
+                          onsubmit="return confirm('Bạn có chắc muốn xóa thửa ' + this.dataset.ten + ' không?');">
+                        <input type="hidden" name="maThua" th:value="${t.maThua}">
+                        <button type="submit">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
