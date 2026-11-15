@@ -39,7 +39,7 @@ Chức năng chính:
 └── docs/
     ├── bao-cao/                  báo cáo Word (.docx)
     ├── hinh-anh/                 toàn bộ hình trong báo cáo, chia theo chương
-    ├── so-do/                    tệp draw.io gốc của sơ đồ
+    ├── so-do/                    tệp draw.io của các sơ đồ, chia theo loại
     └── bang-bieu/                bảng biểu trong báo cáo (Markdown, chia theo chương)
 ```
 
